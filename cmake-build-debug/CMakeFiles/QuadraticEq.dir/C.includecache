@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/daredevil/CLionProjects/QuadraticEq/main.c
+stdio.h
+-
+string.h
+-
+assert.h
+-
+math.h
+-
+

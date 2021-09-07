@@ -1,0 +1,89 @@
+Test 1: 
+The equation has the following form: 
+2.00x^2 + -11.00x + -21.00 = 0 
+discriminant = 17.00
+There are two solutions: 
+x1 = 7.00, x2 = -1.50
+Test#1 passed
+
+
+Test 2: 
+The equation has the following form: 
+1.00x^2 + 0.00x + -4.00 = 0 
+discriminant = 4.00
+There are two solutions: 
+x1 = 2.00, x2 = -2.00
+Test#2 passed
+
+
+Test 3: 
+The equation has the following form: 
+1.00x^2 + 1.00x + -12.00 = 0 
+discriminant = 7.00
+There are two solutions: 
+x1 = 3.00, x2 = -4.00
+Test#3 passed
+
+
+Test 4: 
+The equation has the following form: 
+0.00x^2 + 1.00x + 1.00 = 0 
+Linear equation! 
+There is one solution: 
+x1 = -1.00
+Test#4 passed
+
+
+Test 5: 
+The equation has the following form: 
+0.00x^2 + 1.00x + 0.00 = 0 
+Linear equation! 
+There is one solution: 
+x1 = -0.00
+Test#5 passed
+
+
+Test 6: 
+The equation has the following form: 
+0.00x^2 + 0.00x + 1.00 = 0 
+No solutions!
+Test#6 passed
+
+
+Test 7: 
+The equation has the following form: 
+0.00x^2 + 0.00x + 0.00 = 0 
+Endless number of solutions!
+Test#7 passed
+
+
+Test 8: 
+The equation has the following form: 
+1.00x^2 + -5.00x + 0.00 = 0 
+discriminant = 5.00
+There are two solutions: 
+x1 = 5.00, x2 = 0.00
+Test#8 passed
+
+
+Test 9: 
+The equation has the following form: 
+1.00x^2 + 6.00x + 5.00 = 0 
+discriminant = 4.00
+There are two solutions: 
+x1 = -1.00, x2 = -5.00
+Test#9 passed
+
+
+Test 10: 
+The equation has the following form: 
+1.00x^2 + -6.00x + 9.00 = 0 
+discriminant = 0.00
+There are two coinciding solutions: 
+x1 = x2 = 3.00
+Test#10 passed
+
+
+The equation has the following form: 
+1.00x^2 + -2.00x + 1.00 = 0 
+discriminant = 0.00
