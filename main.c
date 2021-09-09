@@ -185,7 +185,7 @@ int main (int argc, char *argv[]) {
         }
         return 0;
     } else {
-        fprintf(stderr, "Invalid terminal input! \nIf you want to run tests add -test argument\n");
+        fprintf(stderr, "Invalid terminal input! \nIf you want to run tests add -test flag\n");
         return 1;
     }
 }
