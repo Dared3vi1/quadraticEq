@@ -9,6 +9,8 @@
 /Users/daredevil/CLionProjects/QuadraticEq/main.c
 stdio.h
 -
+stdlib.h
+-
 string.h
 -
 assert.h

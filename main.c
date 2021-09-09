@@ -1,12 +1,27 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <assert.h>
 #include <math.h>
 
+void printEq(double const* a, double const* b, double const* c, FILE* log) {
+    fprintf(log, "The equation has the following form:\n");
+    fprintf(log, "%.2fx^2", *a);
+    if (*b < 0) {
+        fprintf(log, " - %.2fx", -(*b));
+    } else {
+        fprintf(log, " + %.2fx", *b);
+    }
+    if (*c < 0) {
+        fprintf(log, " - %.2f", -(*c));
+    } else {
+        fprintf(log, " + %.2f", *c);
+    }
+    fprintf(log, " = 0\n");
+}
 
-
-void collectResults (double const* x1, double const* x2, const int result, FILE* log) {
-    switch(result) {
+void collectResults (double const* x1, double const* x2, int const* result, FILE* log) {
+    switch(*result) {
         case 0:
             fprintf(log, "No solutions!\n");
             break;
@@ -42,7 +57,7 @@ int solveQuadraticEq(double const* a, double const* b, double const* c, double* 
     }
 
     // Print eq form to log;
-    fprintf(log, "The equation has the following form: \n%.2fx^2 + %.2fx + %.2f = 0 \n", *a, *b, *c);
+    printEq(a, b, c, log);
 
     // Check if equation is linear
     if (*a == 0) {
@@ -59,12 +74,13 @@ int solveQuadraticEq(double const* a, double const* b, double const* c, double* 
 
     // Calculate discriminant
     double discriminant_sqrt = sqrt((*b) * (*b) - 4 * (*a) * (*c));
-    fprintf(log, "discriminant = %.2f\n", discriminant_sqrt);
 
     // If discriminant < 0 => no solutions
     if (isnan(discriminant_sqrt)) {
+        fprintf(log, "discriminant < 0\n");
         return 0;
     }
+    fprintf(log, "discriminant = %.2f\n", discriminant_sqrt);
 
     // If discriminant = 0 => two coinciding solutions
     if (discriminant_sqrt == 0) {
@@ -77,8 +93,26 @@ int solveQuadraticEq(double const* a, double const* b, double const* c, double* 
     *x2 = (-(*b) - discriminant_sqrt) / (2 * (*a));
 
     return 2;
+}
 
-
+int calculate() {
+    double parameters[] = {0, 0, 0};
+    double x1 = 0, x2 = 0;
+    fprintf(stdout, "Enter three parameters a, b, c (separated by space)\n");
+    fprintf(stdout, "for an equation: ax^2 + bx + c\n");
+    char inputStr[255];
+    char* ptrEnd;
+    for (int i = 0; i < 3; i++) {
+        scanf("%s", inputStr);
+        parameters[i] = strtod(inputStr, &ptrEnd);
+        if (inputStr == ptrEnd) {
+            fprintf(stderr, "There is invalid parameter!!!");
+            return -1;
+        }
+    }
+    int result = solveQuadraticEq(&(parameters[0]), &(parameters[1]), &(parameters[2]), &x1, &x2, stdout);
+    collectResults(&x1, &x2, &result, stdout);
+    return 0;
 }
 
 void doTest (double a, double b, double c, double x1_r, double x2_r,
@@ -86,16 +120,20 @@ void doTest (double a, double b, double c, double x1_r, double x2_r,
     fprintf(log, "Test %d: \n", *i);
     double x1 = 0, x2 = 0;
     int result = solveQuadraticEq(&a, &b, &c, &x1, &x2, log);
-    collectResults(&x1, &x2, result, log);
+    collectResults(&x1, &x2, &result, log);
     assert(x1 == x1_r && x2 == x2_r && result == result_r);
-    fprintf(log, "Test#%d passed\n", *i);
+    fprintf(stdout, "Test#%d passed\n", *i);
     *i = *i + 1;
     fprintf(log, "\n\n");
 }
 
-void test(FILE* log) {
+void test() {
     double x1 = 0, x2 = 0;
     int i = 1;
+
+    fprintf(stdout, "Test mode running... \n");
+    FILE* log;
+    log = fopen("../log.txt", "w+");
 
     // Test 1
     doTest(2, -11, -21, 7, -1.5, log, 2, &i);
@@ -127,42 +165,27 @@ void test(FILE* log) {
     // Test 10
     doTest(1, -6, 9, 3, 3, log, 1, &i);
 
+    fprintf(stdout, "\nCheck log.txt file\n");
 
-}
-
-void printResult(double const* a, double const* b, double const* c,
-                 double const* x1, double const* x2, const int result) {
-    printf("The equation has the following form:\n");
-    printf("%.2fx^2", *a);
-    if (*b < 0) {
-        printf(" - %.2fx", -(*b));
-    } else {
-        printf(" + %.2fx", *b);
-    }
-    if (*c < 0) {
-        printf(" - %.2f", -(*c));
-    } else {
-        printf(" + %.2f", *c);
-    }
-    printf(" = 0\n");
-    collectResults (x1, x2, result, stdout);
-
-}
-
-
-int main () {
-    FILE* log;
-    log = fopen("../log.txt", "w+");
-
-    double a = 1, b = -2, c = 1;
-    double x1 = 0, x2 = 0;
-
-    //Results of tests are in log.txt
-    test(log);
-
-    int result = solveQuadraticEq(&a, &b, &c, &x1, &x2, log);
-    printResult(&a, &b, &c, &x1, &x2, result);
     fclose(log);
 
-    return 0;
+
+}
+
+
+
+int main (int argc, char *argv[]) {
+    if (argc == 2 && strcmp(argv[1], "-test") == 0) {
+        test();
+        return 0;
+    } else if (argc == 1) {
+        int res = calculate();
+        if (res == -1) {
+            return 1;
+        }
+        return 0;
+    } else {
+        fprintf(stderr, "Invalid terminal input! \nIf you want to run tests add -test argument\n");
+        return 1;
+    }
 }
